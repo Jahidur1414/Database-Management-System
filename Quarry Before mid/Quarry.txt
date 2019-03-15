@@ -1,0 +1,155 @@
+#...Download XAMPP and install it: https://www.apachefriends.org/download.html
+#...Start the MySQL service through XAMPP Control Panel
+#...How to access MySQL using CMD:
+      1.Goto CMD (windows button + R => cmd)
+      2.cd C:\xampp\mysql\bin
+      3.mysql -u root -p -h localhost
+      4.Keep the password empty and press enter
+      5.At this point you have to select the database or you can create a new database:
+          5(a)..To create a new database:
+                1.create database db_name;
+                2.use db_name;
+          5(b)..To use an existing database:
+                1.show databases;
+                2.use db_name;
+#...Work !!!!!
+
+Keywords Learnt:............................................................
+Create Table, Create Database, Show Databases, Use DB, Insert into, Update, Select, Desc, Alter, Distinct, Order By Asc, Order By Desc, AS, like, between. And , OR, Modify Column, Add Column, Aggregate Functions (Min, Max, Sum, Count, AVG), Group By, Having
+
+Database Tables:
+Student (ID, Name, Address, Age, Phone)
+Courses (CourseCode, Title, Credit)
+Registration (SID, CC, Semester)
+Faculty (ID, Name, Desg, Contact, Email, Salary)
+
+............................................................................
+
+// Start of SQL: You can copy from here and paste it the editor
+CREATE TABLE Student(
+    ID varchar(20) PRIMARY KEY,
+    Name varchar(50) NOT NULL,
+    Address varchar(100) DEFAULT "Bangladesh",
+    Age float NOT NULL, 
+    CHECK(Age > 18)
+);
+
+Insert INTO Student(ID, Name, Age) Values("171-15-1294","Minhaz Uddin",20);
+Insert INTO Student(ID, Name, Age) Values("171-15-1355","Pranta",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1443","Nasir Uddin",19);
+Insert INTO Student(ID, Name, Age) Values("171-15-1283","Atiqur Rahman",20);
+Insert INTO Student(ID, Name, Age) Values("171-15-1423","Injamamul Hoque",20);
+Insert INTO Student(ID, Name, Age) Values("171-15-1284","Yeaqub",20);
+Insert INTO Student(ID, Name, Age) Values("171-15-1407","Nixon",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1223","Shanto",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1439","Ashik Reza",20);
+Insert INTO Student(ID, Name, Age) Values("171-15-1440","Imdad",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1280","Palash",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1301","Rony Ahammed",19);
+Insert INTO Student(ID, Name, Age) Values("171-15-1236","Bangla",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1341","Shahriar",21);
+Insert INTO Student(ID, Name, Age) Values("171-15-1304","Sabbir",21);
+
+CREATE TABLE Courses( 
+    CourseCode varchar(20) PRIMARY Key,
+    Title varchar(50) NOT NULL,
+    Credit Float 
+);
+
+Insert Into Courses VALUES('CSE312', 'DBMS LAB',1.0);
+Insert Into Courses VALUES('CSE311', 'DBMS',3.0);
+Insert Into Courses VALUES('CSE313', 'Computer Networking',3.0);
+Insert Into Courses VALUES('CSE314', 'Computer Networking Lab',1.0);
+Insert Into Courses VALUES('ECO314', 'Economics',3.0);
+
+CREATE Table Registration(
+    SID varchar(20),
+    CC varchar(20),
+    semester varchar(30),
+    FOREIGN KEY(SID) REFERENCES Student(ID) on update cascade on delete cascade,
+    FOREIGN KEY(CC) REFERENCES Courses(CourseCode) on update cascade on delete cascade
+);
+
+insert Into Registration values('171-15-1443','CSE312','Spring 2019');
+insert Into Registration values('171-15-1443','CSE311','Spring 2019');
+insert Into Registration values('171-15-1443','CSE313','Spring 2019');
+insert Into Registration values('171-15-1443','CSE314','Spring 2019');
+
+Create table Faculty(
+	ID varchar(50) primary key,
+	Name varchar(50) not null,
+	Desg varchar(50) not null,
+	Contact varchar(20) unique,
+	Email varchar(50) unique,
+	Salary float
+);
+insert into Faculty values ('710001428','Md. Tanvir Rahman', 'Sr. Lecturer', '01834172219', 'trahman.cse@diu.edu.bd', 50000);
+insert into Faculty values ('710001054','SM Aminul Haque', 'Assistant Proffesor', '01834172218', 'aminul.cse@diu.edu.bd',50000);
+insert into Faculty values ('710001079','Reduanul Haque', 'Sr. Lecturer', '01834172216', 'reduan.cse@diu.edu.bd', 48000);
+insert into Faculty values ('710000428','Dr. Mostafa Kamal', 'Professor', '01834172215', 'm.kamal@daffodilvarsity.edu.bd', 125000);
+insert into faculty values ('710001783','Bulbul Ahmed','Lecturer','01720456989','bulbul@diu.edu.bd', 40000);
+insert into faculty values ('710001784','Toufik Ahmed','Lecturer','01720456990','emon@diu.edu.bd', 42000);
+
+
+
+// End of SQL: You can end your copy here.
+
+Sql Queries:
+1..List all tables inside a database.
+=> show tables;
+2..Describe Student table
+=> DESC Student;
+3..Add a column into Registration table named ‘remarks’ with string data type
+=> alter table registration add column Remarks varchar(50);
+4..List all students;
+=> select * from Student;
+5..List the name and age of all students;
+=> select name, age from student; 
+6..List the distinct age of all students:
+=> select distinct age from student;
+7..Update a students address
+=> update student set address = ‘Dhaka’ where id = ‘171-15-1407’;
+8..List all students in ascending order with respect to their age.
+=> select * from student order by age asc;
+9..List all students in descending order with respect to their age:
+=> select * from student order by age desc;
+10..List the name and age of the students whose age is greater than 20.
+=> select name, age from Student where age > 20
+11..List the unique addresses of students as “Student’s Unique Address” :
+=> select distinct address as “Student’s Unique Address” from student;
+12..Add a column in student table named phone
+=>  alter table student add column phone varchar(30);
+13..Find the details of the students who use airtel (016)  operator as their contact no.
+=> Select * from student where phone like "016%";
+14..Find the details of the students whose id’s last digits are 1355.
+=> select * from student where id like "%1355";
+15..Find the details of students who has “-15-” in their ID.
+=>select * from student where id like "%-15-%";
+16..Find the details of the students between 171-15-1200 to 171-15-1355
+=> select * from student where id between "171-15-1200" and "171-15-1355";
+17..Find the details of students whose name starts from ‘S’ and ends with ‘r
+=>  select * from student where name like "S%" and name like "%r";’
+18..Find the details of the students whose name starts from “S” or “R”
+=> select * from student where name like "S%" OR name like "R%";
+19..Add column to student table named email with Unique Key
+=> Alter table student add column email varchar(250) UNIQUE KEY
+20..Update column email in student table
+=> alter table student MODIFY COLUMN email varchar(100)
+21..Find the maximum salary of faculties
+=> select max(salary) from faculty;
+22..Find the minimum salary of faculties
+=> select min(salary) from faculty;
+23..Find the average salary of faculties
+=> select avg(salary) from faculty;
+24..Find the total salary of all faculties
+=> select sum(salary) from faculty;
+25..Find the number of faculties
+=> select count(id) from faculty;
+26..Show designation wise number of faculties
+=>select Desg, count(ID) as 'Number of Faculties'  from faculty group by desg;
+27..Show designation wise total salary
+=>select Desg, sum(salary) as 'Total Salary'  from faculty group by desg;
+28..Show designation wise total salary and order the result based on the total salary in ascending order.
+=>select Desg, sum(salary) as 'Total Salary'  from faculty group by desg order by sum(salary);
+29..Show designation wise number of faculties where the number exceeds 1.
+=>select Desg, count(ID) as 'Number of Faculties'  from faculty group by desg having count(ID) > 1;
